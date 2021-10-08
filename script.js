@@ -59,9 +59,9 @@ Book.prototype.compose = function()
     wrapper.appendChild(readDiv);
     wrapper.appendChild(removeButton);
 
-    title.textContent = this.title;
-    author.textContent = this.author;
-    pages.textContent = this.pages;
+    title.textContent = this.title + ".";
+    author.textContent = "By: " + this.author + ".";
+    pages.textContent = this.pages + " pages.";
 
     removeButton.addEventListener("click", (event) =>
     {
@@ -80,12 +80,11 @@ Book.prototype.compose = function()
 
     readDiv.addEventListener("click", event =>
     {
-        if(event.target.textContent == "Not read")
+        if(this.read == false)
         {
             event.target.classList.remove("book-not-read");
             event.target.classList.add("book-read");
             event.target.textContent = "Read";
-            event.target.style.backgroundColor = "lightgreen";
             this.read = true;
             localStorage.setItem(this.title, JSON.stringify(this));
         }
