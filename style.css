@@ -1,9 +1,16 @@
+/* global styling */
+*
+{
+    font-family : roboto, arial, helvetica, sans-serif;
+}
+
 body
 {
     margin : 0px;
     height : 100%;
 }
 
+/*Navbar related styling*/
 #navbar
 {
     background-color : rgb(71, 71, 71);
@@ -21,100 +28,25 @@ body
     font-weight : bold;
 }
 
-#wrapper 
+
+
+/*Book related styling*/
+#main-content 
 {
-    height : 90%;
     display : flex;
     flex-direction : column;
-}
-
-.form
-{
-    background : rgb(51, 51, 51);
-    border-radius : 10px;
-    color : white;
-    flex-grow : 1;
-    flex-basis : 0px;
-    position  : fixed;
-    top : 50%;
-    left : 50%;
-    transform: translate(-50%, -50%) scale(0);
-    transition: 200ms ease-in-out;
-
-    z-index : 10;
-    display : flex;
-    flex-direction : column;
-    justify-content : center;
     align-items : center;
-}
-
-.form-active
-{
-    transform: translate(-50%, -50%) scale(1);
-}
-
-.shadow
-{
-    position : fixed;
-    top : 0px;
-    left : 0px;
-    right : 0px;
-    bottom : 0px;
-    pointer-events: all;
-    background-color : rgba(0, 0, 0, 0.308);
-    z-index : 9;
-    display : none;
-}
-
-
-#plus-button
-{
-    background-color : grey;
-    font-size : 60px;
-    align-self : center;
-    border-radius : 50%;
-    color : white;
-    cursor : pointer;
-    position : fixed;
-    text-align : center;
-    padding : 4px 20px;
-    top : 90%;
-    left : 88%;
-    transform: translate(-50%, -50%);
-}
-
-#book-info
-{
-    display : flex;
-    flex-wrap : wrap;
-    justify-content : center;
-}
-
-.input-box
-{
-    display : flex;
-    flex-direction : column;
-    margin : 5px;
-    color : white;
-    margin : 15px;
-}
-
-#add
-{
-    margin : 20px
 }
 
 #books-display
 {
-    flex-grow : 3;
-    flex-basis : 0px;
-
     display : flex;
     padding : 20px;
     justify-content : flex-start;
     align-items : center;
     flex-wrap : wrap;
 }
+
 
 .book
 {
@@ -166,6 +98,7 @@ body
     font-weight : bold;
     color : black;
     padding : 5px;
+    cursor : pointer;
 }
 
 .book-not-read
@@ -173,9 +106,19 @@ body
     background: rgb(255, 124, 124);
 }
 
+.book-not-read:hover
+{
+    background-color :rgb(255, 77, 77);
+}
+
 .book-read
 {
     background : lightgreen;
+}
+
+.book-read:hover
+{
+    background :rgb(64, 173, 54);
 }
 
 .remove-book
@@ -190,4 +133,102 @@ body
     justify-content: center;
     align-items: center;
     cursor : pointer;
+}
+
+.remove-book:hover
+{
+    background-color : darkred;
+}
+
+
+
+/*Form related styling*/
+#plus-button
+{
+    background-color : grey;
+    font-size : 50px;
+    border-radius : 50%;
+    color : white;
+    cursor : pointer;
+    text-align : center;
+    padding : 4px 18px;
+}
+
+#plus-button:hover
+{
+    background-color : rgb(59, 59, 59);
+}
+
+.form
+{
+    background : rgb(51, 51, 51);
+    border-radius : 10px;
+    color : white;
+    position  : fixed;
+    top : 50%;
+    left : 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 300ms ease-in-out;
+    z-index : 10;
+    display : flex;
+    flex-direction : column;
+    justify-content : center;
+    align-items : center;
+}
+
+.form-active
+{
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#book-info
+{
+    display : flex;
+    flex-wrap : wrap;
+    justify-content : center;
+}
+
+.input-box
+{
+    display : flex;
+    flex-direction : column;
+    color : white;
+    margin : 15px;
+}
+
+.input-box label
+{
+    font-size : 1.2rem;
+    font-weight : bold;
+}
+
+.input-box input
+{
+    border-color : transparent;
+    font-size : 1rem;
+}
+
+#add
+{
+    margin : 20px;
+    padding : 10px;
+    border : 0px solid transparent;
+    background-color : rgb(64, 173, 54);
+    border-radius : 5px;
+    font-size : 1.2rem;
+    font-weight : bold;
+    cursor : pointer;
+}
+
+.shadow
+{
+    position : fixed;
+    top : 0px;
+    left : 0px;
+    right : 0px;
+    bottom : 0px;
+    pointer-events: all;
+    background-color : rgba(0, 0, 0, 0.308);
+    z-index : 9;
+    display : none;
 }

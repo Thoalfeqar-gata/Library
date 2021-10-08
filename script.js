@@ -5,7 +5,7 @@ const addButton = document.querySelector("#add");
 const bookNameField = document.querySelector("#book-name");
 const authorNameField = document.querySelector("#author");
 const pagesField = document.querySelector("#pages");
-const form = document.querySelector("#form");
+const form = document.querySelector(".form");
 const shadow = document.querySelector(".shadow");
 
 
@@ -82,11 +82,11 @@ Book.prototype.compose = function()
     {
         if(event.target.textContent == "Not read")
         {
+            event.target.classList.remove("book-not-read");
+            event.target.classList.add("book-read");
             event.target.textContent = "Read";
             event.target.style.backgroundColor = "lightgreen";
             this.read = true;
-            event.target.classList.remove("book-not-read");
-            event.target.classList.add("book-read");
             localStorage.setItem(this.title, JSON.stringify(this));
         }
         else
