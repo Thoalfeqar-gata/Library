@@ -1,12 +1,12 @@
 //global variables
-let booksDisplay = document.querySelector("#books-display");
-let plusButton = document.querySelector("#plus-button");
-let addButton = document.querySelector("#add");
-let bookNameField = document.querySelector("#book-name");
-let authorNameField = document.querySelector("#author");
-let pagesField = document.querySelector("#pages");
-let form = document.querySelector("#form");
-
+const booksDisplay = document.querySelector("#books-display");
+const plusButton = document.querySelector("#plus-button");
+const addButton = document.querySelector("#add");
+const bookNameField = document.querySelector("#book-name");
+const authorNameField = document.querySelector("#author");
+const pagesField = document.querySelector("#pages");
+const form = document.querySelector("#form");
+const shadow = document.querySelector(".shadow");
 
 
 let books = [];
@@ -15,13 +15,14 @@ function Book(author, title, pages)
     this.author = author;
     this.title = title;
     this.pages = pages;
+    this.read = false;
     
     //helper properties.
     this.shown = false;
     this.index = 0;
 }
 
-Book.prototype.display = function()
+Book.prototype.compose = function()
 {
     let book = document.createElement("div");
     book.classList.add("book");
@@ -39,17 +40,32 @@ Book.prototype.display = function()
     removeButton.textContent = "×";
     removeButton.classList.add("remove-book");
 
+    let readDiv = document.createElement("div");
+    readDiv.classList.add("book-status");
+    
+    if(!this.read)
+    {
+        readDiv.textContent = "Not read";
+        readDiv.classList.add("book-not-read");
+    }
+    else
+    {
+        readDiv.textContent = "Read";
+        readDiv.classList.add("book-read");
+    }
+
+    let wrapper = document.createElement("div");
+    wrapper.classList.add("book-options");
+    wrapper.appendChild(readDiv);
+    wrapper.appendChild(removeButton);
+
     title.textContent = this.title;
     author.textContent = this.author;
     pages.textContent = this.pages;
 
-
-    book.appendChild(title);
-    book.appendChild(author);
-    book.appendChild(pages);
-
     removeButton.addEventListener("click", (event) =>
     {
+        localStorage.removeItem(this.title);
         booksDisplay.removeChild(book);
         let temp = [];
         for(let book of books)
@@ -62,8 +78,33 @@ Book.prototype.display = function()
         books = temp;
     });
 
-    book.appendChild(removeButton);
-    booksDisplay.appendChild(book);
+    readDiv.addEventListener("click", event =>
+    {
+        if(event.target.textContent == "Not read")
+        {
+            event.target.textContent = "Read";
+            event.target.style.backgroundColor = "lightgreen";
+            this.read = true;
+            event.target.classList.remove("book-not-read");
+            event.target.classList.add("book-read");
+            localStorage.setItem(this.title, JSON.stringify(this));
+        }
+        else
+        {
+            event.target.textContent = "Not read";
+            event.target.style.backgroundColor = ""; 
+            this.read = false;
+            event.target.classList.remove("book-read");
+            event.target.classList.add("book-not-read");
+            localStorage.setItem(this.title, JSON.stringify(this));
+        }
+    });
+
+    book.appendChild(title);
+    book.appendChild(author);
+    book.appendChild(pages);
+    book.appendChild(wrapper);
+    return book;
 }
 
 addButton.addEventListener("click", (event) =>
@@ -75,19 +116,30 @@ addButton.addEventListener("click", (event) =>
     else
     {
         addBook(new Book(authorNameField.value, bookNameField.value, pagesField.value));
+        form.classList.remove("form-active");
+        shadow.style.display = "none";
         showBooks();
     }
 });
 
 plusButton.addEventListener("click", (event) =>
 {
-    event.target.style.display = "none";
-    form.style.display = "flex";
+    form.classList.add("form-active");
+    shadow.style.display = "block";
 });
+
+shadow.addEventListener("click", (event) =>
+{
+    form.classList.remove("form-active");
+    event.target.style.display = "none";
+});
+
+
 function addBook(book)
 {
     book.index = books.length;
     books.push(book);
+    localStorage.setItem(book.title, JSON.stringify(book));
 }
 
 function showBooks()
@@ -96,11 +148,23 @@ function showBooks()
     {
         if(!book.shown)
         {
-            book.display(); 
+            booksDisplay.appendChild(book.compose()); 
             book.shown = true;
         }
     }
 }
 
-addBook(new Book("Mark Manson", "The subtle art of not giving a fuck", "300~"));
+function retrieveBooks()
+{
+    let index = 0;
+    while(localStorage.key(index) != null)
+    {
+        let item = JSON.parse(localStorage.getItem(localStorage.key(index)));
+        let book = new Book(item["author"], item["title"], item["pages"]);
+        book.read = item["read"];
+        books.push(book);
+        index++;
+    }
+}
+retrieveBooks();
 showBooks();
